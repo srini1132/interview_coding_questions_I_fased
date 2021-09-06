@@ -1,4 +1,4 @@
-package com.gap.gid.jesie.bean;
+package com.practice;
 
 import java.util.ArrayList;
 import java.util.Comparator;
