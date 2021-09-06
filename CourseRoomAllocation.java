@@ -47,7 +47,6 @@ public class CourseRoomAllocation {
     static class Course {
         private final int startTime;
         private final int courseTime;
-        private int timeLeftAtNextCourseStart;
 
         public Course(int startTime, int courseTime) {
             this.startTime = startTime;
@@ -58,25 +57,15 @@ public class CourseRoomAllocation {
             return startTime;
         }
 
-        public int getTimeLeftAtNextCourseStart() {
-            return timeLeftAtNextCourseStart;
-        }
-
         public int getCourseTime() {
             return courseTime;
-        }
-
-        public void setTimeLeftAtNextCourseStart(int timeLeftAtNextCourseStart) {
-            this.timeLeftAtNextCourseStart = timeLeftAtNextCourseStart;
         }
 
         @Override
         public String toString() {
             return new StringJoiner(", ", "{", "}")
-                    .add("\"name\" : \"" + Course.class.getSimpleName() + "\"")
                     .add("\"startTime\" : \"" + startTime + "\"")
                     .add("\"courseTime\" : \"" + courseTime + "\"")
-                    .add("\"timeLeftAtNextCourseStart\" : \"" + timeLeftAtNextCourseStart + "\"")
                     .toString();
         }
     }
@@ -97,9 +86,8 @@ public class CourseRoomAllocation {
             } else {
                 for (Map.Entry<Integer, List<Course>> entry : map.entrySet()) {
                     Course lastCourse = entry.getValue().get(entry.getValue().size() - 1);
-                    lastCourse.setTimeLeftAtNextCourseStart(lastCourse.getStartTime() + lastCourse.getCourseTime() - courseStartTimeArray[i]);
 
-                    if (lastCourse.getTimeLeftAtNextCourseStart() <= 0) {
+                    if (lastCourse.getStartTime() + lastCourse.getCourseTime() <= courseStartTimeArray[i]) {
                         entry.getValue().add(new Course(courseStartTimeArray[i], courseDurationArray[i]));
                         break;
                     }
